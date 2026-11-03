@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MisterAutoAndTurbo.Web.Data;
-using MisterAutoAndTurbo.Web.Models;
 using System.Security.Claims;
 
 namespace MisterAutoAndTurbo.Web.Controllers
@@ -9,13 +8,13 @@ namespace MisterAutoAndTurbo.Web.Controllers
     [Authorize]
     public class NotificationsController : Controller
     {
-        private string CurrentUserId => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "";
+        private string CurrentUserId => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
 
         [HttpGet]
         public IActionResult Index()
         {
             var list = AppDataStore.Notifications
-                .Where(n => string.IsNullOrEmpty((n.UserAccountId) || n.UserAccountId == CurrentUserId)
+                .Where(n => string.IsNullOrEmpty(n.UserAccountId) || n.UserAccountId == CurrentUserId)
                 .OrderByDescending(n => n.CreatedAt)
                 .ToList();
             return View(list);

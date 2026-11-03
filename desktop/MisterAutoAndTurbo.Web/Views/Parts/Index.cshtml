@@ -1,0 +1,22 @@
+@model IEnumerable<Part>
+@{
+    ViewData["Title"] = "Parts";
+}
+<div class="page-header">
+    <div><h1>Parts / Inventory</h1><p>Stock items used on jobs.</p></div>
+    <a class="btn btn-primary" asp-action="Create">Add part</a>
+</div>
+<table class="table">
+    <thead><tr><th>Name</th><th>SKU</th><th>Price</th><th>Stock</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var p in Model) {
+        <tr>
+            <td>@p.Name</td>
+            <td>@p.Sku</td>
+            <td>R @p.UnitPrice.ToString("N2")</td>
+            <td>@p.StockQuantity</td>
+            <td><a asp-action="Edit" asp-route-id="@p.Id">Edit</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

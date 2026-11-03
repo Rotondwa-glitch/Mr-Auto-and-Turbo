@@ -1,0 +1,21 @@
+@model IEnumerable<UserAccount>
+@{
+    ViewData["Title"] = "Users";
+}
+<div class="page-header">
+    <div><h1>Staff users</h1><p>Manager, receptionist and mechanic accounts.</p></div>
+    <a class="btn btn-primary" asp-action="Create">Add user</a>
+</div>
+<table class="table">
+    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var u in Model) {
+        <tr>
+            <td>@u.FullName</td>
+            <td>@u.Email</td>
+            <td><span class="pill">@u.Role</span></td>
+            <td><a asp-action="Edit" asp-route-id="@u.Id">Edit</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

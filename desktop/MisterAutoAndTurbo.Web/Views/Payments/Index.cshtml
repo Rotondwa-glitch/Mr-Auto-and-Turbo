@@ -1,0 +1,22 @@
+@model IEnumerable<Payment>
+@{
+    ViewData["Title"] = "Payments";
+}
+<div class="page-header">
+    <div><h1>Payments</h1><p>Recorded customer payments.</p></div>
+    <a class="btn btn-primary" asp-action="Create">Record payment</a>
+</div>
+<table class="table">
+    <thead><tr><th>Amount</th><th>Method</th><th>Status</th><th>Date</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var p in Model) {
+        <tr>
+            <td>R @p.Amount.ToString("N2")</td>
+            <td>@p.Method</td>
+            <td><span class="pill">@p.Status</span></td>
+            <td>@p.PaidAt.ToString("yyyy-MM-dd")</td>
+            <td><a asp-action="Details" asp-route-id="@p.Id">View</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

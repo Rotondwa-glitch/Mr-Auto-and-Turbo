@@ -1,0 +1,22 @@
+@model IEnumerable<Vehicle>
+@{
+    ViewData["Title"] = "Vehicles";
+}
+<div class="page-header">
+    <div><h1>Vehicles</h1><p>Customer vehicles on record.</p></div>
+    <a class="btn btn-primary" asp-action="Create">Register vehicle</a>
+</div>
+<table class="table">
+    <thead><tr><th>Registration</th><th>Make</th><th>Model</th><th>Year</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var v in Model) {
+        <tr>
+            <td>@v.RegistrationNumber</td>
+            <td>@v.Make</td>
+            <td>@v.Model</td>
+            <td>@v.Year</td>
+            <td><a asp-action="Details" asp-route-id="@v.Id">View</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

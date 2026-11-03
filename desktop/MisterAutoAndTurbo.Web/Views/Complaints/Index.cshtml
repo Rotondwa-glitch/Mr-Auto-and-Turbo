@@ -1,0 +1,20 @@
+@model IEnumerable<Complaint>
+@{
+    ViewData["Title"] = "Complaints";
+}
+<div class="page-header">
+    <div><h1>Complaints</h1><p>Customer complaints and resolutions.</p></div>
+</div>
+<table class="table">
+    <thead><tr><th>Subject</th><th>Status</th><th>Created</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var c in Model) {
+        <tr>
+            <td>@c.Subject</td>
+            <td><span class="pill">@c.Status</span></td>
+            <td>@c.CreatedAt.ToString("yyyy-MM-dd")</td>
+            <td><a asp-action="Details" asp-route-id="@c.Id">View</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

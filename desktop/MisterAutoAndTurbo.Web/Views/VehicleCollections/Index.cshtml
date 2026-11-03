@@ -1,0 +1,21 @@
+@model IEnumerable<VehicleCollection>
+@{
+    ViewData["Title"] = "Collections";
+}
+<div class="page-header">
+    <div><h1>Vehicle collection</h1><p>Ready and collected vehicles.</p></div>
+    <a class="btn btn-primary" asp-action="Create">Schedule collection</a>
+</div>
+<table class="table">
+    <thead><tr><th>Status</th><th>Scheduled</th><th>Collected</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var v in Model) {
+        <tr>
+            <td><span class="pill">@v.CollectionStatus</span></td>
+            <td>@v.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</td>
+            <td>@(v.CollectedAt?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
+            <td><a asp-action="Details" asp-route-id="@v.Id">View</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

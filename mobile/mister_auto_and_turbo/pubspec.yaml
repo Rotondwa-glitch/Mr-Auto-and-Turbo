@@ -1,5 +1,5 @@
 name: mister_auto_and_turbo
-description: Mister Auto & Turbo customer app (VSMS) - Flutter + Provider + Supabase.
+description: Mister Auto & Turbo customer app (VSMS Phase 3) - Flutter, MVVM with Provider + Supabase.
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -10,12 +10,40 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.1.2
+  google_fonts: ^6.2.1
+  file_picker: ^8.1.2
   supabase_flutter: ^2.8.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.14.1
+  flutter_native_splash: ^2.4.1
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: assets/images/app_icon.png
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: assets/images/app_icon_foreground.png
+  web:
+    generate: true
+    image_path: assets/images/app_icon.png
+    background_color: "#FFFFFF"
+    theme_color: "#0AA0F5"
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/images/splash_logo.png
+  android_12:
+    color: "#FFFFFF"
+    image: assets/images/app_icon_foreground.png
+    icon_background_color: "#FFFFFF"
+  web: false

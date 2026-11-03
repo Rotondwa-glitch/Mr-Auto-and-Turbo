@@ -12,12 +12,14 @@ Future<void> main() async {
   try {
     await SupabaseService.initialize();
   } catch (e) {
-    debugPrint('Supabase init failed (app still launches): $e');
+    debugPrint('Supabase init failed: $e');
   }
 
   runApp(const MisterAutoApp());
 }
 
+/// Mister Auto & Turbo – customer app (Flutter / NeoGradient UI).
+/// Architecture: MVVM with Provider + Supabase.
 class MisterAutoApp extends StatelessWidget {
   const MisterAutoApp({super.key});
 

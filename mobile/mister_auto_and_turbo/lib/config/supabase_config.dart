@@ -1,5 +1,5 @@
 /// Supabase project settings shared with the ASP.NET staff app.
-/// Replace these with your project values before enabling live data.
+/// Replace placeholders before enabling live data.
 class SupabaseConfig {
   static const String url = String.fromEnvironment(
     'SUPABASE_URL',
@@ -12,5 +12,8 @@ class SupabaseConfig {
   );
 
   static bool get isConfigured =>
-      !url.contains('YOUR_') && !anonKey.contains('YOUR_');
+      !url.contains('YOUR_') &&
+      !anonKey.contains('YOUR_') &&
+      url.isNotEmpty &&
+      anonKey.isNotEmpty;
 }

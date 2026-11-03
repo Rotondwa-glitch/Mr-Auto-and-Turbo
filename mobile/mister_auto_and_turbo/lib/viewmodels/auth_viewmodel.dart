@@ -17,7 +17,6 @@ class AuthViewModel extends ChangeNotifier {
 
     try {
       if (!SupabaseService.isReady) {
-        // Demo mode: accept any non-empty credentials so UI is testable offline
         if (email.isEmpty || password.isEmpty) {
           _error = 'Enter email and password';
           _isLoading = false;

@@ -1,0 +1,36 @@
+@model IEnumerable<JobCard>
+@{
+    ViewData["Title"] = "Job cards";
+}
+
+<div class="page-header">
+    <div>
+        <h1>Job cards</h1>
+        <p>Active and recent repair jobs.</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">New job card</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Description</th>
+            <th>Created</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var j in Model)
+    {
+        <tr>
+            <td>@j.Id.Substring(0, Math.Min(8, j.Id.Length))…</td>
+            <td><span class="pill">@j.Status</span></td>
+            <td>@j.Description</td>
+            <td>@j.CreatedAt.ToString("yyyy-MM-dd")</td>
+            <td><a asp-action="Details" asp-route-id="@j.Id">View</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

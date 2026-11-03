@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../utils/helpers.dart';
+import '../theme.dart';
 
 class QuotationView extends StatelessWidget {
   const QuotationView({super.key});
@@ -8,19 +8,8 @@ class QuotationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Quotations')),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.request_quote_outlined),
-              title: const Text('No quotations yet'),
-              subtitle: const Text('Quotes from the workshop will appear here'),
-              trailing: Text(formatCurrency(0)),
-            ),
-          ),
-        ],
-      ),
+      backgroundColor: kSurface,
+      body: const Center(child: Text('No quotations yet.')),
     );
   }
 }

@@ -13,13 +13,35 @@ class Customer {
     this.address = '',
   });
 
-  factory Customer.fromJson(Map<String, dynamic> json) {
-    return Customer(
-      id: json['id'] as String? ?? '',
-      fullName: json['full_name'] as String? ?? json['fullName'] as String? ?? '',
-      email: json['email'] as String? ?? '',
-      phone: json['phone'] as String? ?? '',
-      address: json['address'] as String? ?? '',
-    );
-  }
+  String get firstName => fullName.trim().split(' ').first;
+
+  Customer copyWith({
+    String? fullName,
+    String? email,
+    String? phone,
+    String? address,
+  }) =>
+      Customer(
+        id: id,
+        fullName: fullName ?? this.fullName,
+        email: email ?? this.email,
+        phone: phone ?? this.phone,
+        address: address ?? this.address,
+      );
+
+  factory Customer.fromMap(Map<String, dynamic> m) => Customer(
+        id: m['id'] as String? ?? '',
+        fullName: m['full_name'] as String? ?? m['fullName'] as String? ?? '',
+        email: m['email'] as String? ?? '',
+        phone: m['phone'] as String? ?? '',
+        address: m['address'] as String? ?? '',
+      );
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'full_name': fullName,
+        'email': email,
+        'phone': phone,
+        'address': address,
+      };
 }

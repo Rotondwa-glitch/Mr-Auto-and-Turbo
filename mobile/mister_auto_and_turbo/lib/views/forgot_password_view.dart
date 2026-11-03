@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../routes/route_manager.dart';
+import '../theme.dart';
+import '../utils/helpers.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({super.key});
@@ -9,64 +10,51 @@ class ForgotPasswordView extends StatefulWidget {
 }
 
 class _ForgotPasswordViewState extends State<ForgotPasswordView> {
-  final _emailCtrl = TextEditingController();
-  bool _loading = false;
+  final _email = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    _emailCtrl.dispose();
+    _email.dispose();
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    final email = _emailCtrl.text.trim();
-    if (email.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Enter your email address')),
-      );
-      return;
-    }
-    setState(() => _loading = true);
-    await Future.delayed(const Duration(milliseconds: 500));
-    if (!mounted) return;
-    setState(() => _loading = false);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('If that email is registered, a code has been sent.')),
-    );
-    Navigator.of(context).pushNamed(RouteManager.login);
+  void _submit() {
+    if (!_formKey.currentState!.validate()) return;
+    snack(context, 'If that email exists, a recovery link will be sent.');
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Forgot password')),
-      body: Padding(
+      body: Container(
+        color: kSurface,
         padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text('Forgot Password?', style: Theme.of(context).textTheme.headlineSmall),
-            const SizedBox(height: 12),
-            const Text(
-              'Enter your registered email address and we will send you a verification code.',
-            ),
-            const SizedBox(height: 24),
-            TextFormField(
-              controller: _emailCtrl,
-              decoration: const InputDecoration(
-                labelText: 'Email Address',
-                prefixIcon: Icon(Icons.email_outlined),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              const Text(
+                'Enter your email and we will send a recovery code.',
               ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: _loading ? null : _submit,
-              child: _loading
-                  ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2))
-                  : const Text('Send Verification Code'),
-            ),
-          ],
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _email,
+                decoration: const InputDecoration(labelText: 'Email'),
+                validator: emailField,
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _submit,
+                  child: const Text('Send recovery code'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

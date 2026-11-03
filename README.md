@@ -10,22 +10,27 @@ Academic WIL project by **Team Web Vortex**.
 Mr-Auto-and-Turbo/
 ├── desktop/                          # ASP.NET Core staff / workshop web app
 │   └── MisterAutoAndTurbo.Web/
-│       ├── Controllers/
-│       ├── Models/
-│       ├── Data/
-│       ├── Services/
+│       ├── Controllers/              # All staff controllers
+│       ├── Models/                   # Domain models
+│       ├── Data/                     # AppDataStore, DbContext, filters
+│       ├── Services/                 # Email, password, SA time
 │       ├── ViewModels/
-│       ├── Views/                    # (partial)
+│       ├── Views/                    # Razor UI (auth, dashboards, CRUD)
+│       ├── wwwroot/css|js            # Site styles & scripts
 │       ├── Program.cs
 │       └── ...
 ├── mobile/                           # Flutter customer mobile app
 │   └── mister_auto_and_turbo/
 │       ├── lib/
 │       │   ├── main.dart
+│       │   ├── config/
 │       │   ├── models/
-│       │   ├── views/                # (continuing)
+│       │   ├── views/                # All customer screens
 │       │   ├── viewmodels/
-│       │   └── ...
+│       │   ├── repositories/
+│       │   ├── services/
+│       │   ├── routes/
+│       │   └── widgets/
 │       └── pubspec.yaml
 ├── README.md
 └── .gitignore
@@ -43,12 +48,13 @@ Mr-Auto-and-Turbo/
 
 ## Main Features
 - Customer & vehicle registration
-- Digital job cards
+- Digital job cards & inspections
 - Repair status tracking
 - Quotations & approvals
 - Payment recording
 - Role-based dashboards
-- Notifications
+- Notifications (staff + customer)
+- Pricing / parts inventory
 
 ## Getting Started
 
@@ -60,22 +66,31 @@ dotnet restore
 dotnet run
 ```
 
+Default seeded manager (when DB is empty):
+- Email: `manager@misterauto.local`
+- Password: `Manager123!`
+
 ### Mobile (Flutter)
 ```bash
 cd mobile/mister_auto_and_turbo
 flutter pub get
 # Set Supabase URL + anon key in lib/config/supabase_config.dart
+# Generate platform folders if needed:
+#   flutter create .
 flutter run
 ```
 
 ## Import Status
-Core source code imported from `Inheritancersa/MisterAutoAndTurbo`.
+Source migrated from `Inheritancersa/MisterAutoAndTurbo` into this structured layout.
+
+**Included:** full app source for desktop + mobile (controllers, models, data layer, views, Flutter screens).
 
 **Excluded (large binaries):**
 - Full project zip archives (~14.5 MB each)
 - Large SRS PDF (~12.8 MB)
 - Large architectural diagram images
-- Bootstrap source maps and heavy image assets
+- Bootstrap `wwwroot/lib` vendor tree / source maps
+- Logo/favicon binary assets (optional to re-add)
 
 ## Team Web Vortex
 - LE Letsie
@@ -84,4 +99,4 @@ Core source code imported from `Inheritancersa/MisterAutoAndTurbo`.
 - LE Lipali
 - LTBG Pule
 
-**Status:** In Development
+**Status:** Core migration complete — ready for local run & further development

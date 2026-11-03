@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Vehicle lookup";
+    var vehicle = ViewBag.Vehicle as Vehicle;
+    var customer = ViewBag.Customer as Customer;
+}
+<div class="page-header">
+    <div>
+        <h1>Vehicle lookup</h1>
+        <p>Find a vehicle by registration number</p>
+    </div>
+    <a class="btn btn-ghost" asp-action="Index">Back to list</a>
+</div>
+<div class="card" style="max-width:420px;">
+    <form method="get" asp-action="Lookup">
+        <div class="field">
+            <label>Registration number</label>
+            <input class="input" name="registration" value="@ViewData["Registration"]" placeholder="ABC 123 FS" autofocus />
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top:12px;">Search</button>
+    </form>
+</div>
+
+@if (vehicle != null)
+{
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;">
+        <div class="card">
+            <strong>Vehicle</strong>
+            <p style="margin:8px 0 0;">@vehicle.RegistrationNumber<br />@vehicle.Make @vehicle.Model (@vehicle.Year)<br />@vehicle.Mileage.ToString("N0") km</p>
+            <a class="btn btn-ghost" style="margin-top:12px;" asp-action="Details" asp-route-id="@vehicle.Id">Full details</a>
+        </div>
+        @if (customer != null)
+        {
+            <div class="card">
+                <strong>Owner</strong>
+                <p style="margin:8px 0 0;">@customer.FullName<br />@customer.Phone<br />@customer.Email</p>
+                <a class="btn btn-ghost" style="margin-top:12px;" asp-controller="Customers" asp-action="Details" asp-route-id="@customer.Id">Customer</a>
+            </div>
+        }
+    </div>
+}
+else if (ViewData["Registration"] != null)
+{
+    <div class="card" style="margin-top:16px;">
+        <p style="color:var(--muted);margin:0;">No vehicle found for that registration.</p>
+    </div>
+}

@@ -22,7 +22,8 @@ else
             <tr>
                 <th>When</th>
                 <th>Job card</th>
-                <th>Notes</th>
+                <th>Findings</th>
+                <th>Recommended</th>
             </tr>
         </thead>
         <tbody>
@@ -31,7 +32,8 @@ else
             <tr>
                 <td>@i.InspectedAt.ToString("yyyy-MM-dd HH:mm")</td>
                 <td><a asp-controller="JobCards" asp-action="Details" asp-route-id="@i.JobCardId">@i.JobCardId.Substring(0, Math.Min(8, i.JobCardId.Length))…</a></td>
-                <td>@i.Notes</td>
+                <td>@i.Findings</td>
+                <td>@i.RecommendedAction</td>
             </tr>
         }
         </tbody>

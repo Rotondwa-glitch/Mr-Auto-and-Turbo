@@ -1,17 +1,19 @@
 namespace MisterAutoAndTurbo.Web.Models
 {
     /// <summary>
-    /// In-app notification for staff or customers.
+    /// A message shown to a customer or staff user, with a type, read flag and an optional related record id.
     /// </summary>
     public class Notification
     {
         public string Id { get; set; } = string.Empty;
-        public string UserId { get; set; } = string.Empty;
-        public string Title { get; set; } = string.Empty;
+        /// <summary>Customer id or staff user-account id who receives this.</summary>
+        public string UserAccountId { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
+        /// <summary>e.g. Quotation, JobUpdate, System, booking, complaint</summary>
+        public string Type { get; set; } = string.Empty;
         public bool IsRead { get; set; }
         public DateTime CreatedAt { get; set; }
-        public string? RelatedEntityId { get; set; }
-        public string? RelatedEntityType { get; set; }
+        /// <summary>Related quotation/job/appointment id when applicable.</summary>
+        public string? RelatedId { get; set; }
     }
 }

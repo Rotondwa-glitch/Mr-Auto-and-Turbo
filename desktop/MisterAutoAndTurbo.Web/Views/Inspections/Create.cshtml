@@ -20,8 +20,12 @@
         </select>
     </div>
     <div class="field">
-        <label asp-for="Notes">Inspection notes</label>
-        <textarea class="input" asp-for="Notes" rows="5" required placeholder="Findings, diagnosis, recommended work…"></textarea>
+        <label asp-for="Findings">Findings</label>
+        <textarea class="input" asp-for="Findings" rows="4" required placeholder="Inspection findings…"></textarea>
+    </div>
+    <div class="field">
+        <label asp-for="RecommendedAction">Recommended action</label>
+        <textarea class="input" asp-for="RecommendedAction" rows="3" placeholder="Recommended work…"></textarea>
     </div>
     <div class="field">
         <label asp-for="InspectedAt">Inspected at</label>

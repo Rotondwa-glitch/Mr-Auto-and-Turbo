@@ -1,32 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 ThemeData buildTheme() {
-  const primary = Color(0xFF0AA0F5);
-  const secondary = Color(0xFF0D47A1);
-
+  const primary = Color(0xFF1E5DBC);
+  const navy = Color(0xFF0D1A2E);
   return ThemeData(
     useMaterial3: true,
     colorScheme: ColorScheme.fromSeed(
       seedColor: primary,
       primary: primary,
-      secondary: secondary,
-      brightness: Brightness.light,
+      secondary: const Color(0xFF8DC63F),
     ),
-    textTheme: GoogleFonts.interTextTheme(),
     appBarTheme: const AppBarTheme(
-      centerTitle: true,
+      backgroundColor: navy,
+      foregroundColor: Colors.white,
       elevation: 0,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        backgroundColor: primary,
+        foregroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
     ),
   );
 }

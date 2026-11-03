@@ -3,9 +3,6 @@ using MisterAutoAndTurbo.Web.Models;
 
 namespace MisterAutoAndTurbo.Web.Data
 {
-    /// <summary>
-    /// Entity Framework Core database context. Each DbSet maps one model class to a table in the Supabase PostgreSQL database.
-    /// </summary>
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -31,6 +28,7 @@ namespace MisterAutoAndTurbo.Web.Data
         public DbSet<Receptionist> Receptionists => Set<Receptionist>();
         public DbSet<VehicleCollection> VehicleCollections => Set<VehicleCollection>();
         public DbSet<BusinessSettings> BusinessSettings => Set<BusinessSettings>();
+        public DbSet<Pricing> Pricings => Set<Pricing>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

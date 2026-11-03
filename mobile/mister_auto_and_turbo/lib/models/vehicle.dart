@@ -14,18 +14,18 @@ class Vehicle {
     required this.make,
     required this.model,
     required this.year,
-    required this.mileage,
+    this.mileage = 0,
   });
 
   factory Vehicle.fromJson(Map<String, dynamic> json) {
     return Vehicle(
-      id: json['id'] as String,
+      id: json['id'] as String? ?? '',
       customerId: json['customer_id'] as String? ?? '',
       registrationNumber: json['registration_number'] as String? ?? '',
       make: json['make'] as String? ?? '',
       model: json['model'] as String? ?? '',
-      year: json['year'] as int? ?? 0,
-      mileage: json['mileage'] as int? ?? 0,
+      year: (json['year'] as num?)?.toInt() ?? 0,
+      mileage: (json['mileage'] as num?)?.toInt() ?? 0,
     );
   }
 }

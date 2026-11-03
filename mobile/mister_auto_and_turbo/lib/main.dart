@@ -9,28 +9,15 @@ import 'viewmodels/workshop_viewmodel.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Connect to the same Supabase project used by the ASP.NET MVC staff app.
-  // Configure URL + anon key in lib/config/supabase_config.dart first.
   try {
     await SupabaseService.initialize();
   } catch (e) {
-    // Still launch so the developer can see the error on the login screen.
-    debugPrint('Supabase init failed: $e');
+    debugPrint('Supabase init failed (app still launches): $e');
   }
 
   runApp(const MisterAutoApp());
 }
 
-/// Mister Auto & Turbo – customer app (Flutter).
-/// Screens follow the Figma "customer-proto" file.
-/// Data is stored in Supabase (PostgreSQL) shared with the staff web app.
-///
-/// Architecture: MVVM with Provider.
-///   models/        -> plain data classes
-///   repositories/  -> Supabase data access
-///   viewmodels/    -> ChangeNotifier classes (state + logic)
-///   views/         -> screens (widgets that only draw the UI)
-///   routes/        -> RouteManager: every named route in one place
 class MisterAutoApp extends StatelessWidget {
   const MisterAutoApp({super.key});
 

@@ -4,10 +4,11 @@ import '../services/supabase_service.dart';
 class AuthViewModel extends ChangeNotifier {
   bool _isLoading = false;
   String? _error;
+  bool _demoLoggedIn = false;
 
   bool get isLoading => _isLoading;
   String? get error => _error;
-  bool get isLoggedIn => SupabaseService.isLoggedIn;
+  bool get isLoggedIn => _demoLoggedIn || SupabaseService.isLoggedIn;
 
   Future<bool> login(String email, String password) async {
     _isLoading = true;
@@ -15,6 +16,20 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
+      if (!SupabaseService.isReady) {
+        // Demo mode: accept any non-empty credentials so UI is testable offline
+        if (email.isEmpty || password.isEmpty) {
+          _error = 'Enter email and password';
+          _isLoading = false;
+          notifyListeners();
+          return false;
+        }
+        _demoLoggedIn = true;
+        _isLoading = false;
+        notifyListeners();
+        return true;
+      }
+
       await SupabaseService.client.auth.signInWithPassword(
         email: email,
         password: password,
@@ -31,7 +46,10 @@ class AuthViewModel extends ChangeNotifier {
   }
 
   Future<void> logout() async {
-    await SupabaseService.client.auth.signOut();
+    _demoLoggedIn = false;
+    if (SupabaseService.isReady) {
+      await SupabaseService.client.auth.signOut();
+    }
     notifyListeners();
   }
 }

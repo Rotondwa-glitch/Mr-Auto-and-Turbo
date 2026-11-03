@@ -6,7 +6,6 @@ namespace MisterAutoAndTurbo.Web.Data
     /// <summary>
     /// Working copy of the staff app data. Loaded from Supabase (PostgreSQL) on startup
     /// and written back after every change (see PersistChangesFilter).
-    /// Restored from the original AppDataStore implementation.
     /// </summary>
     public static class AppDataStore
     {
@@ -149,10 +148,7 @@ namespace MisterAutoAndTurbo.Web.Data
             }
         }
 
-        public static void ReloadFromDatabase(ApplicationDbContext db)
-        {
-            LoadFromDatabase(db);
-        }
+        public static void ReloadFromDatabase(ApplicationDbContext db) => LoadFromDatabase(db);
 
         public static void RefreshFromDatabase(ApplicationDbContext db, bool force = false)
         {
@@ -168,7 +164,6 @@ namespace MisterAutoAndTurbo.Web.Data
                 }
                 else
                 {
-                    // Fast path: only tables the Flutter app can change
                     MergeMissing(Customers, db.Set<Customer>());
                     MergeMissing(Vehicles, db.Set<Vehicle>());
                     MergeMissing(Appointments, db.Set<Appointment>());
@@ -180,24 +175,18 @@ namespace MisterAutoAndTurbo.Web.Data
             }
         }
 
-        /// <summary>
-        /// Follow-up for actions the customer took in the Flutter app.
-        /// Creates staff notifications for new bookings/complaints. Idempotent.
-        /// </summary>
         public static bool ApplyCustomerAppUpdates()
         {
             var changed = false;
 
             foreach (var appt in Appointments.Where(a => a.Status == "Pending" || a.Status == "Scheduled"))
             {
-                var key = $"booking:{appt.Id}";
                 if (Notifications.Any(n => n.Type == "booking" && n.RelatedId == appt.Id)) continue;
 
                 Notifications.Add(new Notification
                 {
                     Id = NewId("ntf"),
-                    Title = "New booking",
-                    Message = $"Appointment scheduled for {appt.ScheduledAt:g}",
+                    Message = $"New booking scheduled for {appt.ScheduledAt:g}",
                     Type = "booking",
                     RelatedId = appt.Id,
                     CreatedAt = DateTime.UtcNow,
@@ -213,8 +202,7 @@ namespace MisterAutoAndTurbo.Web.Data
                 Notifications.Add(new Notification
                 {
                     Id = NewId("ntf"),
-                    Title = "New complaint",
-                    Message = c.Subject,
+                    Message = $"New complaint: {c.Subject}",
                     Type = "complaint",
                     RelatedId = c.Id,
                     CreatedAt = DateTime.UtcNow,
@@ -295,7 +283,6 @@ namespace MisterAutoAndTurbo.Web.Data
                 var id = IdOf(row);
                 if (string.IsNullOrEmpty(id)) continue;
                 if (inMemory.Contains(id)) continue;
-                // Do not re-add rows we previously knew and that were deleted locally
                 if (known.Contains(id)) continue;
 
                 list.Add(row);

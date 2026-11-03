@@ -1,0 +1,49 @@
+<mxfile host="app.diagrams.net" modified="2026-09-09T13:45:00.000Z" agent="Mozilla/5.0" version="26.0.0" type="device">
+  <diagram id="auto-turbo-architecture" name="System Architecture">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Mister Auto &amp; Turbo&lt;br&gt;&lt;font style=&quot;font-size:18px&quot;&gt;Vehicle Service Management System&lt;/font&gt;&lt;br&gt;&lt;font style=&quot;font-size:14px&quot;&gt;System Architecture Diagram&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#203864;strokeColor=#203864;fontColor=#ffffff;fontStyle=1;fontSize=24;spacingTop=12;spacingBottom=12;" vertex="1" parent="1">
+          <mxGeometry x="520" y="30" width="560" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="customerBox" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eaf5ff;strokeColor=#4aa3df;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="210" width="450" height="520" as="geometry"/>
+        </mxCell>
+        <mxCell id="customerHeader" value="CUSTOMER&lt;br&gt;&lt;font style=&quot;font-size:15px&quot;&gt;Flutter Mobile Application&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d6ecff;strokeColor=#4aa3df;fontColor=#0b3558;fontStyle=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="60" y="210" width="450" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="customerFeatures" value="&lt;b&gt;Customer Functions&lt;/b&gt;&lt;br&gt;• Register / Login&lt;br&gt;• Manage Profile&lt;br&gt;• Register &amp; View Vehicles&lt;br&gt;• View Repair Status&lt;br&gt;• View Repair History&lt;br&gt;• View Quotations&lt;br&gt;• Approve / Reject Quotations&lt;br&gt;• View Payment Information&lt;br&gt;• View Payment History&lt;br&gt;• Upload Proof of Payment&lt;br&gt;• View Notifications" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fcff;strokeColor=#9ccff2;fontColor=#17384d;fontSize=16;align=left;verticalAlign=top;spacing=15;" vertex="1" parent="1">
+          <mxGeometry x="85" y="315" width="400" height="370" as="geometry"/>
+        </mxCell>
+        <mxCell id="staffBox" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#edf9ef;strokeColor=#5cb85c;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="210" width="450" height="520" as="geometry"/>
+        </mxCell>
+        <mxCell id="staffHeader" value="STAFF&lt;br&gt;&lt;font style=&quot;font-size:15px&quot;&gt;ASP.NET MVC Web Application&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d9f2de;strokeColor=#5cb85c;fontColor=#1e4d28;fontStyle=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="210" width="450" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="staffFeatures" value="&lt;b&gt;Staff Functions&lt;/b&gt;&lt;br&gt;• Role-based dashboards&lt;br&gt;• Customer &amp; vehicle intake&lt;br&gt;• Job cards &amp; inspections&lt;br&gt;• Quotations &amp; payments&lt;br&gt;• Parts &amp; pricing&lt;br&gt;• Collections &amp; complaints&lt;br&gt;• Notifications" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f7fcf8;strokeColor=#9fd3a8;fontColor=#1e4d28;fontSize=16;align=left;verticalAlign=top;spacing=15;" vertex="1" parent="1">
+          <mxGeometry x="1115" y="315" width="400" height="370" as="geometry"/>
+        </mxCell>
+        <mxCell id="supabaseBox" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3eefc;strokeColor=#7c5cbf;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="620" y="320" width="360" height="280" as="geometry"/>
+        </mxCell>
+        <mxCell id="supabaseHeader" value="SUPABASE&lt;br&gt;&lt;font style=&quot;font-size:14px&quot;&gt;PostgreSQL · Auth · Realtime · Storage&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6ddf7;strokeColor=#7c5cbf;fontColor=#3a2a66;fontStyle=1;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="620" y="320" width="360" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="db" value="&lt;b&gt;Database&lt;/b&gt;&lt;br&gt;PostgreSQL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6950b8;fontColor=#2f2452;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="650" y="420" width="115" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="auth" value="&lt;b&gt;Auth&lt;/b&gt;&lt;br&gt;Users / Roles" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6950b8;fontColor=#2f2452;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="785" y="420" width="115" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="storage" value="&lt;b&gt;Storage&lt;/b&gt;&lt;br&gt;Files" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6950b8;fontColor=#2f2452;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="920" y="420" width="40" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="tech" value="&lt;b&gt;Technology Stack&lt;/b&gt;&lt;br&gt;Flutter (Customer) · ASP.NET MVC (Staff) · Supabase" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f6f7f9;strokeColor=#c8cdd4;fontColor=#243447;fontSize=15;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="790" width="1380" height="80" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

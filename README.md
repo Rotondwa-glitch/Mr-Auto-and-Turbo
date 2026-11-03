@@ -1,48 +1,87 @@
-Mister Auto & Turbo VSMS
+# Mister Auto & Turbo – VSMS
 
-Web Vortex WIL Project
+Vehicle Service Management System for **Mister Auto & Turbo** (Welkom, Free State).
 
-A Vehicle Service Management System (VSMS) developed for Mister Auto & Turbo in Welkom, Free State.
+Academic WIL project by **Team Web Vortex**.
 
-About
+## Repository Structure
 
-The system digitises the vehicle servicing process, replacing manual paper-based records with a centralised digital system for managing customers, vehicles, job cards, quotations, repairs and payments.
+```
+Mr-Auto-and-Turbo/
+├── desktop/                          # ASP.NET Core staff / workshop web app
+│   └── MisterAutoAndTurbo.Web/
+│       ├── Controllers/
+│       ├── Models/
+│       ├── Data/
+│       ├── Services/
+│       ├── ViewModels/
+│       ├── Views/                    # (partial)
+│       ├── Program.cs
+│       └── ...
+├── mobile/                           # Flutter customer mobile app
+│   └── mister_auto_and_turbo/
+│       ├── lib/
+│       │   ├── main.dart
+│       │   ├── models/
+│       │   ├── views/                # (continuing)
+│       │   ├── viewmodels/
+│       │   └── ...
+│       └── pubspec.yaml
+├── README.md
+└── .gitignore
+```
 
-User Roles
-* Customer
-* Receptionist
-* Mechanic
-* Manager
+## Technologies
+- **Desktop**: ASP.NET Core 8 / C# / Entity Framework Core / PostgreSQL (Supabase)
+- **Mobile**: Flutter / Dart / Provider / Supabase
 
-Main Features
-* Customer & vehicle registration
-* Digital job cards
-* Repair status tracking
-* Quotations & approvals
-* Payment recording
-* Repair history
-* Role-based dashboards
+## User Roles
+- Customer (mobile app)
+- Receptionist
+- Mechanic
+- Manager
 
-Technologies
-Flutter / Dart
-ASP.NET Core / C#
-Supabase / PostgreSQL
-Git & GitHub
+## Main Features
+- Customer & vehicle registration
+- Digital job cards
+- Repair status tracking
+- Quotations & approvals
+- Payment recording
+- Role-based dashboards
+- Notifications
 
-Team Web Vortex
+## Getting Started
 
-* LE Letsie
-* RG Madi
-* NM Netshituka
-* LE Lipali
-* LTBG Pule
+### Desktop (ASP.NET)
+```bash
+cd desktop/MisterAutoAndTurbo.Web
+dotnet restore
+# Configure ConnectionStrings:Supabase in appsettings.json or User Secrets
+dotnet run
+```
 
-Status
+### Mobile (Flutter)
+```bash
+cd mobile/mister_auto_and_turbo
+flutter pub get
+# Set Supabase URL + anon key in lib/config/supabase_config.dart
+flutter run
+```
 
-In Development
+## Import Status
+Core source code imported from `Inheritancersa/MisterAutoAndTurbo`.
 
-Academic WIL project for Mister Auto & Turbo
+**Excluded (large binaries):**
+- Full project zip archives (~14.5 MB each)
+- Large SRS PDF (~12.8 MB)
+- Large architectural diagram images
+- Bootstrap source maps and heavy image assets
 
----
+## Team Web Vortex
+- LE Letsie
+- RG Madi
+- NM Netshituka
+- LE Lipali
+- LTBG Pule
 
-This repository contains the source code and documentation imported from the original project repository.
+**Status:** In Development

@@ -9,11 +9,6 @@ using MisterAutoAndTurbo.Web.Services;
 
 namespace MisterAutoAndTurbo.Web.Controllers
 {
-    /// <summary>
-    /// Login / Register / Logout using cookie authentication
-    /// (Microsoft.AspNetCore.Authentication.Core + Cookies).
-    /// Also handles forgot-password flow via email recovery codes.
-    /// </summary>
     public class AccountController : Controller
     {
         private readonly PasswordResetService _resetService;
@@ -41,7 +36,13 @@ namespace MisterAutoAndTurbo.Web.Controllers
             ViewData["ReturnUrl"] = returnUrl;
 
             var user = AppDataStore.Users.FirstOrDefault(u =>
-                u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+                u.Email.Equals(email, StringComparison.OrdinalIgnoreCase)
+                || u.Email.Equals(email?.Trim(), StringComparison.OrdinalIgnoreCase));
+
+            // Also allow login with username part before @
+            user ??= AppDataStore.Users.FirstOrDefault(u =>
+                u.Email.StartsWith(email + "@", StringComparison.OrdinalIgnoreCase)
+                || u.FullName.Equals(email, StringComparison.OrdinalIgnoreCase));
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
             {
@@ -72,40 +73,7 @@ namespace MisterAutoAndTurbo.Web.Controllers
             if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                 return Redirect(returnUrl);
 
-            return RedirectToAction("Index", "Home");
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        [AllowAnonymous]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Register(string fullName, string email, string password, string role)
-        {
-            if (AppDataStore.Users.Any(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase)))
-            {
-                ModelState.AddModelError(string.Empty, "Email already registered.");
-                return View();
-            }
-
-            var user = new UserAccount
-            {
-                Id = Guid.NewGuid().ToString(),
-                FullName = fullName.Trim(),
-                Email = email.Trim().ToLowerInvariant(),
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
-                Role = role,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            AppDataStore.Users.Add(user);
-            TempData["Success"] = "Account created. Please log in.";
-            return RedirectToAction(nameof(Login));
+            return RedirectToAction("Index", "Dashboard");
         }
 
         [HttpPost]
@@ -118,17 +86,11 @@ namespace MisterAutoAndTurbo.Web.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
+        public IActionResult AccessDenied() => View();
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult ForgotPassword()
-        {
-            return View();
-        }
+        public IActionResult ForgotPassword() => View();
 
         [AllowAnonymous]
         [HttpPost]
@@ -141,26 +103,31 @@ namespace MisterAutoAndTurbo.Web.Controllers
             if (user != null)
             {
                 var code = _resetService.GenerateCode(user.Email);
-                await _emailService.SendPasswordResetAsync(user.Email, code);
+                await _emailService.SendAsync(
+                    user.Email,
+                    "Password recovery code",
+                    $"<p>Your recovery code is: <strong>{code}</strong></p>");
             }
 
-            // Always show success to avoid revealing whether the email exists
             TempData["Success"] = "If that email is registered, a recovery code has been sent.";
             return RedirectToAction(nameof(ResetPassword));
         }
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult ResetPassword()
-        {
-            return View();
-        }
+        public IActionResult ResetPassword() => View();
 
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ResetPassword(string email, string code, string newPassword)
+        public IActionResult ResetPassword(string email, string code, string newPassword, string confirmPassword)
         {
+            if (newPassword != confirmPassword)
+            {
+                ModelState.AddModelError(string.Empty, "Passwords do not match.");
+                return View();
+            }
+
             if (!_resetService.ValidateCode(email, code))
             {
                 ModelState.AddModelError(string.Empty, "Invalid or expired recovery code.");

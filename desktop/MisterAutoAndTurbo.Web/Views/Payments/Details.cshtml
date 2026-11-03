@@ -1,0 +1,17 @@
+@model Payment
+@{
+    ViewData["Title"] = "Payment";
+    var customer = ViewBag.Customer as Customer;
+}
+<div class="page-header">
+    <div>
+        <h1>R @Model.Amount.ToString("N2")</h1>
+        <p><span class="pill">@Model.Status</span> · @Model.Method · @Model.PaidAt.ToString("yyyy-MM-dd HH:mm")</p>
+    </div>
+</div>
+<div class="card">
+    @if (customer != null) {
+        <p><strong>Customer</strong><br />@customer.FullName</p>
+    }
+    <p style="margin-top:12px;"><strong>Reference</strong><br />@(Model.Reference ?? "—")</p>
+</div>

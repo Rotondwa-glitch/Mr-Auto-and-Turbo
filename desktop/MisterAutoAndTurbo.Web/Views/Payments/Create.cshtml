@@ -1,0 +1,40 @@
+@model Payment
+@{
+    ViewData["Title"] = "Record payment";
+    var customers = ViewBag.Customers as IEnumerable<Customer> ?? Enumerable.Empty<Customer>();
+}
+<div class="page-header">
+    <div><h1>Record payment</h1></div>
+    <a class="btn btn-ghost" asp-action="Index">Back</a>
+</div>
+<div class="card" style="max-width:520px;">
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <div class="field">
+        <label>Customer</label>
+        <select class="input" asp-for="CustomerId" required>
+            <option value="">— Select —</option>
+            @foreach (var c in customers) { <option value="@c.Id">@c.FullName</option> }
+        </select>
+    </div>
+    <div class="field">
+        <label asp-for="Amount">Amount (R)</label>
+        <input class="input" asp-for="Amount" type="number" step="0.01" required />
+    </div>
+    <div class="field">
+        <label asp-for="Method">Method</label>
+        <select class="input" asp-for="Method">
+            <option>Cash</option><option>Card</option><option>EFT</option><option>Other</option>
+        </select>
+    </div>
+    <div class="field">
+        <label asp-for="Reference">Reference</label>
+        <input class="input" asp-for="Reference" />
+    </div>
+    <div class="field">
+        <label asp-for="PaidAt">Paid at</label>
+        <input class="input" asp- asp-for="PaidAt" type="datetime-local" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save payment</button>
+</form>
+</div>

@@ -1,0 +1,30 @@
+@model VehicleCollection
+@{
+    ViewData["Title"] = "Schedule collection";
+    var jobs = ViewBag.JobCards as IEnumerable<JobCard> ?? Enumerable.Empty<JobCard>();
+}
+<div class="page-header">
+    <div><h1>Schedule collection</h1></div>
+    <a class="btn btn-ghost" asp-action="Index">Back</a>
+</div>
+<div class="card" style="max-width:520px;">
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <div class="field">
+        <label>Job card</label>
+        <select class="input" asp-for="JobCardId" required>
+            <option value="">— Select —</option>
+            @foreach (var j in jobs) { <option value="@j.Id">@j.Id.Substring(0, Math.Min(8, j.Id.Length))… — @j.Description</option> }
+        </select>
+    </div>
+    <div class="field">
+        <label asp-for="ScheduledAt">Scheduled at</label>
+        <input class="input" asp-for="ScheduledAt" type="datetime-local" required />
+    </div>
+    <div class="field">
+        <label asp-for="Notes">Notes</label>
+        <textarea class="input" asp-for="Notes" rows="2"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Schedule</button>
+</form>
+</div>

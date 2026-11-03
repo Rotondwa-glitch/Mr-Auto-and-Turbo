@@ -1,0 +1,33 @@
+@model Complaint
+@{
+    ViewData["Title"] = "Complaint";
+    var customer = ViewBag.Customer as Customer;
+}
+<div class="page-header">
+    <div>
+        <h1>@Model.Subject</h1>
+        <p><span class="pill">@Model.Status</span> · @Model.CreatedAt.ToString("yyyy-MM-dd")</p>
+    </div>
+</div>
+<div class="card">
+    <p>@Model.Description</p>
+    @if (customer != null) {
+        <p style="margin-top:12px;"><strong>Customer</strong><br />@customer.FullName · @customer.Phone</p>
+    }
+    @if (!string.IsNullOrWhiteSpace(Model.ResolutionNotes)) {
+        <p style="margin-top:12px;"><strong>Resolution</strong><br />@Model.ResolutionNotes</p>
+    }
+</div>
+@if (Model.Status != "Resolved") {
+<div class="card">
+    <form asp-action="Resolve" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.Id" />
+        <div class="field">
+            <label>Resolution notes</label>
+            <textarea class="input" name="resolutionNotes" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Mark resolved</button>
+    </form>
+</div>
+}

@@ -1,0 +1,22 @@
+@model VehicleCollection
+@{
+    ViewData["Title"] = "Collection";
+}
+<div class="page-header">
+    <div>
+        <h1>Collection</h1>
+        <p><span class="pill">@Model.CollectionStatus</span></p>
+    </div>
+</div>
+<div class="card">
+    <p><strong>Scheduled</strong><br />@Model.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</p>
+    <p style="margin-top:12px;"><strong>Collected</strong><br />@(Model.CollectedAt?.ToString("yyyy-MM-dd HH:mm") ?? "—")</p>
+    <p style="margin-top:12px;"><strong>Notes</strong><br />@(string.IsNullOrWhiteSpace(Model.Notes) ? "—" : Model.Notes)</p>
+</div>
+@if (Model.CollectionStatus != "Collected") {
+    <form asp-action="MarkCollected" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.Id" />
+        <button type="submit" class="btn btn-primary">Mark collected</button>
+    </form>
+}

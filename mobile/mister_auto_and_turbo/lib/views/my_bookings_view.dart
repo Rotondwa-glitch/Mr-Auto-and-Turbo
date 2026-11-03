@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme.dart';
 
 class MyBookingsView extends StatelessWidget {
   const MyBookingsView({super.key});
@@ -7,18 +8,8 @@ class MyBookingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('My bookings')),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: const [
-          Card(
-            child: ListTile(
-              leading: Icon(Icons.calendar_today),
-              title: Text('No upcoming bookings'),
-              subtitle: Text('Book a service to get started'),
-            ),
-          ),
-        ],
-      ),
+      backgroundColor: kSurface,
+      body: const Center(child: Text('No bookings yet.')),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme.dart';
 
 class HistoryView extends StatelessWidget {
   const HistoryView({super.key});
@@ -6,19 +7,9 @@ class HistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Service history')),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: const [
-          Card(
-            child: ListTile(
-              leading: Icon(Icons.history),
-              title: Text('No service history yet'),
-              subtitle: Text('Completed jobs will appear here'),
-            ),
-          ),
-        ],
-      ),
+      appBar: AppBar(title: const Text('Repair history')),
+      backgroundColor: kSurface,
+      body: const Center(child: Text('No completed jobs yet.')),
     );
   }
 }

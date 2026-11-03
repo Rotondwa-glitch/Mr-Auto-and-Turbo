@@ -1,113 +1,106 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../routes/route_manager.dart';
+import '../theme.dart';
 import '../viewmodels/auth_viewmodel.dart';
+import '../viewmodels/workshop_viewmodel.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final auth = context.watch<AuthViewModel>();
+    final workshop = context.watch<WorkshopViewModel>();
+    workshop.seedDemoJob();
+
     return Scaffold(
+      backgroundColor: kSurface,
       appBar: AppBar(
-        title: const Text('Mister Auto & Turbo'),
+        title: const Text('Dashboard'),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
-            onPressed: () => Navigator.of(context).pushNamed(RouteManager.notifications),
-          ),
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Text('Hello!', style: Theme.of(context).textTheme.headlineSmall),
-          const SizedBox(height: 4),
-          Text('What would you like to do today?', style: Theme.of(context).textTheme.bodyMedium),
-          const SizedBox(height: 24),
-          _DashboardCard(
-            icon: Icons.build_circle_outlined,
-            title: 'Book a service',
-            subtitle: 'Schedule a diagnostic or repair',
-            onTap: () => Navigator.of(context).pushNamed(RouteManager.bookService),
-          ),
-          _DashboardCard(
-            icon: Icons.calendar_month_outlined,
-            title: 'My bookings',
-            subtitle: 'View upcoming appointments',
-            onTap: () => Navigator.of(context).pushNamed(RouteManager.myBookings),
-          ),
-          _DashboardCard(
-            icon: Icons.history,
-            title: 'Service history',
-            subtitle: 'Past jobs and repairs',
-            onTap: () => Navigator.of(context).pushNamed(RouteManager.history),
-          ),
-          _DashboardCard(
-            icon: Icons.request_quote_outlined,
-            title: 'Quotations',
-            subtitle: 'View and respond to quotes',
-            onTap: () => Navigator.of(context).pushNamed(RouteManager.quotations),
-          ),
-          _DashboardCard(
-            icon: Icons.report_problem_outlined,
-            title: 'Complaints',
-            subtitle: 'Raise or track a complaint',
-            onTap: () => Navigator.of(context).pushNamed(RouteManager.complaints),
+            onPressed: () =>
+                Navigator.of(context).pushNamed(RouteManager.notifications),
           ),
         ],
       ),
       drawer: Drawer(
         child: ListView(
           children: [
-            const DrawerHeader(child: Text('Menu')),
-            ListTile(
-              leading: const Icon(Icons.person_outline),
-              title: const Text('Profile'),
-              onTap: () => Navigator.of(context).pushNamed(RouteManager.profile),
+            const DrawerHeader(
+              decoration: BoxDecoration(color: kNavy),
+              child: Text(
+                'Mister Auto & Turbo',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
             ),
+            _item(context, 'Book service', RouteManager.bookService),
+            _item(context, 'My bookings', RouteManager.myBookings),
+            _item(context, 'Quotations', RouteManager.quotations),
+            _item(context, 'Vehicle status', RouteManager.vehicleStatus),
+            _item(context, 'Proof of payment', RouteManager.proofOfPayment),
+            _item(context, 'Complaints', RouteManager.complaints),
+            _item(context, 'History', RouteManager.history),
+            _item(context, 'Register vehicle', RouteManager.registerVehicle),
+            _item(context, 'Edit profile', RouteManager.editProfile),
+            _item(context, 'Contact', RouteManager.contact),
             ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('Sign out'),
               onTap: () async {
-                await auth.logout();
+                await context.read<AuthViewModel>().logout();
                 if (context.mounted) {
-                  Navigator.of(context).pushReplacementNamed(RouteManager.login);
+                  Navigator.of(context)
+                      .pushReplacementNamed(RouteManager.login);
                 }
               },
             ),
           ],
         ),
       ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          const Text(
+            'Your vehicles',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          ...workshop.vehicles.map(
+            (v) => Card(
+              child: ListTile(
+                leading: const Icon(Icons.directions_car, color: kPrimary),
+                title: Text(v.displayName),
+                subtitle: Text('${v.plate} · ${v.year}'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => Navigator.of(context)
+                    .pushNamed(RouteManager.vehicleStatus),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(RouteManager.bookService),
+              icon: const Icon(Icons.add),
+              label: const Text('Book a service'),
+            ),
+          ),
+        ],
+      ),
     );
   }
-}
 
-class _DashboardCard extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final VoidCallback onTap;
-
-  const _DashboardCard({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        leading: Icon(icon, size: 32),
-        title: Text(title),
-        subtitle: Text(subtitle),
-        trailing: const Icon(Icons.chevron_right),
-        onTap: onTap,
-      ),
+  static Widget _item(BuildContext context, String title, String route) {
+    return ListTile(
+      title: Text(title),
+      onTap: () {
+        Navigator.pop(context);
+        Navigator.of(context).pushNamed(route);
+      },
     );
   }
 }

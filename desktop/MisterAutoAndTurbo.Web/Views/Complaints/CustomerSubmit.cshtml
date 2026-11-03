@@ -1,0 +1,26 @@
+@{
+    ViewData["Title"] = "Submit a complaint";
+    Layout = "_AuthLayout";
+}
+<h1 style="font-size:22px;margin-bottom:4px;">Submit a complaint</h1>
+<p style="color:var(--muted);margin-bottom:24px;">Tell us what went wrong and we will follow up.</p>
+<form asp-action="CustomerSubmit" method="post">
+    @Html.AntiForgeryToken()
+    <div class="field">
+        <label>Your name</label>
+        <input class="input" name="name" required />
+    </div>
+    <div class="field">
+        <label>Email or phone</label>
+        <input class="input" name="contact" required />
+    </div>
+    <div class="field">
+        <label>Subject</label>
+        <input class="input" name="subject" required />
+    </div>
+    <div class="field">
+        <label>Details</label>
+        <textarea class="input" name="description" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block" style="width:100%;">Submit</button>
+</form>

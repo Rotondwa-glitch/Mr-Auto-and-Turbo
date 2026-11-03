@@ -1,0 +1,37 @@
+@model IEnumerable<JobCard>
+@{
+    ViewData["Title"] = "Job board";
+}
+<div class="page-header">
+    <div>
+        <h1>Job board</h1>
+        <p>Jobs grouped by status</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">New job card</a>
+</div>
+
+@foreach (var status in JobStatus.All)
+{
+    var group = Model.Where(j => j.Status == status).ToList();
+    <h2 style="margin:20px 0 10px;font-size:15px;">@status <span style="color:var(--muted);font-weight:400;">(@group.Count)</span></h2>
+    @if (!group.Any())
+    {
+        <p style="color:var(--muted);margin:0 0 12px;">None</p>
+    }
+    else
+    {
+        <table class="table" style="margin-bottom:16px;">
+            <thead><tr><th>Description</th><th>Created</th><th></th></tr></thead>
+            <tbody>
+            @foreach (var j in group.OrderByDescending(x => x.CreatedAt))
+            {
+                <tr>
+                    <td>@j.Description</td>
+                    <td>@j.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    <td><a asp-action="Details" asp-route-id="@j.Id">Open</a></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+}

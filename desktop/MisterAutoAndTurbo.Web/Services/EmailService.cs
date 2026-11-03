@@ -3,16 +3,14 @@ using System.Net.Mail;
 
 namespace MisterAutoAndTurbo.Web.Services
 {
-    /// <summary>
-    /// Abstraction for sending e-mail so the implementation can be replaced or mocked.
-    /// </summary>
     public interface IEmailService
     {
-        /// <summary>Sends the message right away (the call completes once the SMTP server accepted it).</summary>
         Task SendAsync(string toEmail, string subject, string htmlBody);
     }
 
-    /// <summary>Sends mail through the SMTP server configured in the "Email" section of appsettings.json.</summary>
+    /// <summary>
+    /// SMTP implementation. When host is empty, logs to console instead of failing.
+    /// </summary>
     public class SmtpEmailService : IEmailService
     {
         private readonly IConfiguration _config;
@@ -21,14 +19,27 @@ namespace MisterAutoAndTurbo.Web.Services
         public async Task SendAsync(string toEmail, string subject, string htmlBody)
         {
             var s = _config.GetSection("Email");
-            var host = s["SmtpHost"] ?? throw new InvalidOperationException("Email:SmtpHost is not configured.");
+            var host = s["SmtpHost"];
+            if (string.IsNullOrWhiteSpace(host))
+            {
+                Console.WriteLine($"[Email skipped] To={toEmail} Subject={subject}");
+                await Task.CompletedTask;
+                return;
+            }
+
             var port = int.TryParse(s["SmtpPort"], out var p) ? p : 587;
             var user = s["SmtpUser"];
             var pass = s["SmtpPass"];
-            var from = s["FromEmail"] ?? user ?? throw new InvalidOperationException("Email:FromEmail is not configured.");
+            var from = s["FromEmail"] ?? user ?? "noreply@misterauto.local";
             var fromName = s["FromName"] ?? "Mister Auto And Turbo";
 
-            using var message = new MailMessage { From = new MailAddress(from, fromName), Subject = subject, Body = htmlBody, IsBodyHtml = true };
+            using var message = new MailMessage
+            {
+                From = new MailAddress(from, fromName),
+                Subject = subject,
+                Body = htmlBody,
+                IsBodyHtml = true
+            };
             message.To.Add(toEmail);
 
             using var client = new SmtpClient(host, port)

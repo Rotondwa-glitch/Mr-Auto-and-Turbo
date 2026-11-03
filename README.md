@@ -4,99 +4,40 @@ Vehicle Service Management System for **Mister Auto & Turbo** (Welkom, Free Stat
 
 Academic WIL project by **Team Web Vortex**.
 
-## Repository Structure
+> **Quick start:** see **[SETUP.md](SETUP.md)** for clone-and-run steps.
 
-```
-Mr-Auto-and-Turbo/
-├── desktop/                          # ASP.NET Core staff / workshop web app
-│   └── MisterAutoAndTurbo.Web/
-│       ├── Controllers/              # All staff controllers
-│       ├── Models/                   # Domain models
-│       ├── Data/                     # AppDataStore, DbContext, filters
-│       ├── Services/                 # Email, password, SA time
-│       ├── ViewModels/
-│       ├── Views/                    # Razor UI (auth, dashboards, CRUD)
-│       ├── wwwroot/css|js            # Site styles & scripts
-│       ├── Program.cs
-│       └── ...
-├── mobile/                           # Flutter customer mobile app
-│   └── mister_auto_and_turbo/
-│       ├── lib/
-│       │   ├── main.dart
-│       │   ├── config/
-│       │   ├── models/
-│       │   ├── views/                # All customer screens
-│       │   ├── viewmodels/
-│       │   ├── repositories/
-│       │   ├── services/
-│       │   ├── routes/
-│       │   └── widgets/
-│       └── pubspec.yaml
-├── README.md
-└── .gitignore
-```
+## Run after download
 
-## Technologies
-- **Desktop**: ASP.NET Core 8 / C# / Entity Framework Core / PostgreSQL (Supabase)
-- **Mobile**: Flutter / Dart / Provider / Supabase
-
-## User Roles
-- Customer (mobile app)
-- Receptionist
-- Mechanic
-- Manager
-
-## Main Features
-- Customer & vehicle registration
-- Digital job cards & inspections
-- Repair status tracking
-- Quotations & approvals
-- Payment recording
-- Role-based dashboards
-- Notifications (staff + customer)
-- Pricing / parts inventory
-
-## Getting Started
-
-### Desktop (ASP.NET)
+### Desktop (staff web app)
 ```bash
 cd desktop/MisterAutoAndTurbo.Web
 dotnet restore
-# Configure ConnectionStrings:Supabase in appsettings.json or User Secrets
 dotnet run
 ```
+Login: `manager@misterauto.local` / `Manager123!`  
+Uses **SQLite** by default (`misterauto.db`) — no cloud DB required.
 
-Default seeded manager (when DB is empty):
-- Email: `manager@misterauto.local`
-- Password: `Manager123!`
-
-### Mobile (Flutter)
+### Mobile (customer app)
 ```bash
 cd mobile/mister_auto_and_turbo
+flutter create . --project-name mister_auto_and_turbo
 flutter pub get
-# Set Supabase URL + anon key in lib/config/supabase_config.dart
-# Generate platform folders if needed:
-#   flutter create .
 flutter run
 ```
+Without Supabase configured, any email/password works in **demo mode** so you can navigate the UI.
 
-## Import Status
-Source migrated from `Inheritancersa/MisterAutoAndTurbo` into this structured layout.
+## Repository structure
+```
+desktop/MisterAutoAndTurbo.Web/   # ASP.NET Core staff app
+mobile/mister_auto_and_turbo/     # Flutter customer app
+SETUP.md                          # Detailed run instructions
+```
 
-**Included:** full app source for desktop + mobile (controllers, models, data layer, views, Flutter screens).
-
-**Excluded (large binaries):**
-- Full project zip archives (~14.5 MB each)
-- Large SRS PDF (~12.8 MB)
-- Large architectural diagram images
-- Bootstrap `wwwroot/lib` vendor tree / source maps
-- Logo/favicon binary assets (optional to re-add)
+## Technologies
+- **Desktop:** ASP.NET Core 8, EF Core, SQLite (default) or PostgreSQL/Supabase
+- **Mobile:** Flutter, Provider, Supabase (optional)
 
 ## Team Web Vortex
-- LE Letsie
-- RG Madi
-- NM Netshituka
-- LE Lipali
-- LTBG Pule
+- LE Letsie · RG Madi · NM Netshituka · LE Lipali · LTBG Pule
 
-**Status:** Core migration complete — ready for local run & further development
+**Status:** Core migration complete — apps run after clone

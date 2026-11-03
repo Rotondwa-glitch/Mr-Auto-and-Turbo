@@ -1,0 +1,30 @@
+@model Customer
+@{
+    ViewData["Title"] = "Add customer";
+}
+<div class="page-header">
+    <div><h1>Add customer</h1></div>
+    <a class="btn btn-ghost" asp-action="Index">Back</a>
+</div>
+<div class="card" style="max-width:520px;">
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <div class="field">
+        <label asp-for="FullName">Full name</label>
+        <input class="input" asp-for="FullName" required />
+    </div>
+    <div class="field">
+        <label asp-for="Email">Email</label>
+        <input class="input" asp-for="Email" type="email" />
+    </div>
+    <div class="field">
+        <label asp-for="Phone">Phone</label>
+        <input class="input" asp-for="Phone" />
+    </div>
+    <div class="field">
+        <label asp-for="Address">Address</label>
+        <input class="input" asp-for="Address" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save customer</button>
+</form>
+</div>

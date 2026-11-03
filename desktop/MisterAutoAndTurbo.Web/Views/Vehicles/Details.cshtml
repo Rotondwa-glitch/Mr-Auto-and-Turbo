@@ -1,0 +1,32 @@
+@model Vehicle
+@{
+    ViewData["Title"] = "Vehicle details";
+    var customer = ViewBag.Customer as Customer;
+    var jobs = ViewBag.JobCards as IEnumerable<JobCard> ?? Enumerable.Empty<JobCard>();
+}
+<div class="page-header">
+    <div>
+        <h1>@Model.RegistrationNumber</h1>
+        <p>@Model.Make @Model.Model (@Model.Year) · @Model.Mileage km</p>
+    </div>
+    <a class="btn btn-ghost" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+</div>
+@if (customer != null) {
+    <div class="card">
+        <strong>Owner</strong>
+        <p style="margin:6px 0 0;"><a asp-controller="Customers" asp-action="Details" asp-route-id="@customer.Id">@customer.FullName</a> · @customer.Phone</p>
+    </div>
+}
+<h2 style="margin:20px 0 10px;font-size:16px;">Job history</h2>
+<table class="table">
+    <thead><tr><th>Status</th><th>Description</th><th>Created</th></tr></thead>
+    <tbody>
+    @foreach (var j in jobs) {
+        <tr>
+            <td><span class="pill">@j.Status</span></td>
+            <td><a asp-controller="JobCards" asp-action="Details" asp-route-id="@j.Id">@j.Description</a></td>
+            <td>@j.CreatedAt.ToString("yyyy-MM-dd")</td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Workshop performance";
+}
+<div class="page-header">
+    <div>
+        <h1>Workshop performance</h1>
+        <p>High-level KPIs for the workshop</p>
+    </div>
+    <a class="btn btn-ghost" asp-action="Index">Back to dashboard</a>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-label">Open jobs</span>
+        <strong class="stat-value">@(ViewBag.OpenJobs ?? 0)</strong>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">In progress</span>
+        <strong class="stat-value">@(ViewBag.InProgressJobs ?? 0)</strong>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Ready for collection</span>
+        <strong class="stat-value">@(ViewBag.ReadyForCollection ?? 0)</strong>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Open complaints</span>
+        <strong class="stat-value">@(ViewBag.OpenComplaints ?? 0)</strong>
+    </div>
+</div>
+
+<div class="card">
+    <p style="color:var(--muted);margin:0;">
+        Connect this page to live metrics from <code>AppDataStore</code> / Supabase
+        (jobs completed this week, average turnaround, revenue) when the full data layer is wired.
+    </p>
+</div>

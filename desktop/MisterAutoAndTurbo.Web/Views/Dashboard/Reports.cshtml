@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Reports";
+}
+<div class="page-header">
+    <div>
+        <h1>Workshop reports</h1>
+        <p>Summary of jobs, payments and complaints</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <a class="btn btn-ghost" asp-controller="JobCards" asp-action="Index">Job board</a>
+        <a class="btn btn-ghost" asp-controller="Payments" asp-action="Index">Payments</a>
+        <a class="btn btn-ghost" href="javascript:window.print()">Print</a>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-label">Active jobs</span>
+        <strong class="stat-value">@(ViewBag.OpenJobs ?? 0)</strong>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Ready for collection</span>
+        <strong class="stat-value">@(ViewBag.ReadyForCollection ?? 0)</strong>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Open complaints</span>
+        <strong class="stat-value">@(ViewBag.OpenComplaints ?? 0)</strong>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Pending quotations</span>
+        <strong class="stat-value">@(ViewBag.PendingQuotations ?? 0)</strong>
+    </div>
+</div>
+
+<div class="card">
+    <p style="color:var(--muted);margin:0;">
+        Full report breakdowns (jobs by status, revenue totals, outstanding balances)
+        can be expanded once the report view-model is connected to live Supabase data.
+    </p>
+</div>

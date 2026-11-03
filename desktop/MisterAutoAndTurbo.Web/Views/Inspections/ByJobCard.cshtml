@@ -1,0 +1,39 @@
+@model IEnumerable<Inspection>
+@{
+    ViewData["Title"] = "Inspections";
+    var jobCardId = ViewBag.JobCardId as string;
+}
+<div class="page-header">
+    <div>
+        <h1>Inspections</h1>
+        <p>@(string.IsNullOrEmpty(jobCardId) ? "All inspections" : $"For job card {jobCardId}")</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create" asp-route-jobCardId="@jobCardId">Record inspection</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="card"><p style="color:var(--muted);margin:0;">No inspections recorded yet.</p></div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>When</th>
+                <th>Job card</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var i in Model.OrderByDescending(x => x.InspectedAt))
+        {
+            <tr>
+                <td>@i.InspectedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td><a asp-controller="JobCards" asp-action="Details" asp-route-id="@i.JobCardId">@i.JobCardId.Substring(0, Math.Min(8, i.JobCardId.Length))…</a></td>
+                <td>@i.Notes</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,32 @@
+@model Inspection
+@{
+    ViewData["Title"] = "Record inspection";
+    var jobCards = ViewBag.JobCards as IEnumerable<JobCard> ?? Enumerable.Empty<JobCard>();
+}
+<div class="page-header">
+    <div><h1>Record inspection</h1></div>
+    <a class="btn btn-ghost" asp-controller="JobCards" asp-action="Index">Back to jobs</a>
+</div>
+<div class="card" style="max-width:560px;">
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <div class="field">
+        <label>Job card</label>
+        <select class="input" asp-for="JobCardId" required>
+            <option value="">— Select job card —</option>
+            @foreach (var j in jobCards) {
+                <option value="@j.Id">@j.Id.Substring(0, Math.Min(8, j.Id.Length))… — @j.Description</option>
+            }
+        </select>
+    </div>
+    <div class="field">
+        <label asp-for="Notes">Inspection notes</label>
+        <textarea class="input" asp-for="Notes" rows="5" required placeholder="Findings, diagnosis, recommended work…"></textarea>
+    </div>
+    <div class="field">
+        <label asp-for="InspectedAt">Inspected at</label>
+        <input class="input" asp-for="InspectedAt" type="datetime-local" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save inspection</button>
+</form>
+</div>

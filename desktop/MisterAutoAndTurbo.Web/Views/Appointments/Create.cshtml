@@ -1,0 +1,42 @@
+@model Appointment
+@{
+    ViewData["Title"] = "New appointment";
+    var customers = ViewBag.Customers as IEnumerable<Customer> ?? Enumerable.Empty<Customer>();
+    var vehicles = ViewBag.Vehicles as IEnumerable<Vehicle> ?? Enumerable.Empty<Vehicle>();
+}
+<div class="page-header">
+    <div><h1>New appointment</h1></div>
+    <a class="btn btn-ghost" asp-action="Index">Back</a>
+</div>
+<div class="card" style="max-width:560px;">
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <div class="field">
+        <label>Customer</label>
+        <select class="input" asp-for="CustomerId" required>
+            <option value="">— Select —</option>
+            @foreach (var c in customers) { <option value="@c.Id">@c.FullName</option> }
+        </select>
+    </div>
+    <div class="field">
+        <label>Vehicle</label>
+        <select class="input" asp-for="VehicleId" required>
+            <option value="">— Select —</option>
+            @foreach (var v in vehicles) { <option value="@v.Id">@v.RegistrationNumber</option> }
+        </select>
+    </div>
+    <div class="field">
+        <label asp-for="ScheduledAt">Scheduled at</label>
+        <input class="input" asp-for="ScheduledAt" type="datetime-local" required />
+    </div>
+    <div class="field">
+        <label asp-for="ServiceType">Service type</label>
+        <input class="input" asp-for="ServiceType" required />
+    </div>
+    <div class="field">
+        <label asp-for="Description">Notes</label>
+        <textarea class="input" asp-for="Description" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create appointment</button>
+</form>
+</div>

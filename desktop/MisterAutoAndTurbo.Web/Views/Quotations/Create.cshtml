@@ -1,0 +1,45 @@
+@model Quotation
+@{
+    ViewData["Title"] = "New quotation";
+    var customers = ViewBag.Customers as IEnumerable<Customer> ?? Enumerable.Empty<Customer>();
+    var vehicles = ViewBag.Vehicles as IEnumerable<Vehicle> ?? Enumerable.Empty<Vehicle>();
+    var statuses = ViewBag.Statuses as string[] ?? QuotationStatus.All;
+}
+<div class="page-header">
+    <div><h1>New quotation</h1></div>
+    <a class="btn btn-ghost" asp-action="Index">Back</a>
+</div>
+<div class="card" style="max-width:560px;">
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <div class="field">
+        <label>Customer</label>
+        <select class="input" asp-for="CustomerId" required>
+            <option value="">— Select —</option>
+            @foreach (var c in customers) { <option value="@c.Id">@c.FullName</option> }
+        </select>
+    </div>
+    <div class="field">
+        <label>Vehicle</label>
+        <select class="input" asp-for="VehicleId" required>
+            <option value="">— Select —</option>
+            @foreach (var v in vehicles) { <option value="@v.Id">@v.RegistrationNumber</option> }
+        </select>
+    </div>
+    <div class="field">
+        <label asp-for="TotalAmount">Total amount (R)</label>
+        <input class="input" asp-for="TotalAmount" type="number" step="0.01" required />
+    </div>
+    <div class="field">
+        <label asp-for="Status">Status</label>
+        <select class="input" asp-for="Status">
+            @foreach (var s in statuses) { <option value="@s">@s</option> }
+        </select>
+    </div>
+    <div class="field">
+        <label asp-for="Notes">Notes</label>
+        <textarea class="input" asp-for="Notes" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create quotation</button>
+</form>
+</div>

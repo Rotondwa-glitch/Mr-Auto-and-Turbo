@@ -1,0 +1,38 @@
+@model JobCard
+@{
+    ViewData["Title"] = "Job card";
+    var customer = ViewBag.Customer as Customer;
+    var vehicle = ViewBag.Vehicle as Vehicle;
+}
+<div class="page-header">
+    <div>
+        <h1>Job card</h1>
+        <p><span class="pill">@Model.Status</span> · @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+    </div>
+</div>
+<div class="card">
+    <p><strong>Description</strong><br />@Model.Description</p>
+    @if (customer != null) {
+        <p style="margin-top:12px;"><strong>Customer</strong><br />
+        <a asp-controller="Customers" asp-action="Details" asp-route-id="@customer.Id">@customer.FullName</a></p>
+    }
+    @if (vehicle != null) {
+        <p style="margin-top:12px;"><strong>Vehicle</strong><br />
+        <a asp-controller="Vehicles" asp-action="Details" asp-route-id="@vehicle.Id">@vehicle.RegistrationNumber</a> — @vehicle.Make @vehicle.Model</p>
+    }
+</div>
+<div class="card">
+    <form asp-action="UpdateStatus" method="post" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.Id" />
+        <div class="field" style="margin:0;min-width:180px;">
+            <label>Update status</label>
+            <select class="input" name="status">
+                @foreach (var s in JobStatus.All) {
+                    <option value="@s" selected="@(s == Model.Status)">@s</option>
+                }
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>

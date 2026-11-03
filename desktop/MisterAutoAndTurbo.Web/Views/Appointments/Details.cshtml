@@ -1,0 +1,37 @@
+@model Appointment
+@{
+    ViewData["Title"] = "Appointment";
+    var customer = ViewBag.Customer as Customer;
+    var vehicle = ViewBag.Vehicle as Vehicle;
+}
+<div class="page-header">
+    <div>
+        <h1>Appointment</h1>
+        <p>@Model.ScheduledAt.ToString("yyyy-MM-dd HH:mm") · <span class="pill">@Model.Status</span></p>
+    </div>
+</div>
+<div class="card">
+    <p><strong>Service</strong><br />@Model.ServiceType</p>
+    <p style="margin-top:12px;"><strong>Notes</strong><br />@(string.IsNullOrWhiteSpace(Model.Description) ? "—" : Model.Description)</p>
+    @if (customer != null) {
+        <p style="margin-top:12px;"><strong>Customer</strong><br />@customer.FullName · @customer.Phone</p>
+    }
+    @if (vehicle != null) {
+        <p style="margin-top:12px;"><strong>Vehicle</strong><br />@vehicle.RegistrationNumber — @vehicle.Make @vehicle.Model</p>
+    }
+</div>
+<div class="card">
+    <form asp-action="UpdateStatus" method="post" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.Id" />
+        <div class="field" style="margin:0;min-width:160px;">
+            <label>Status</label>
+            <select class="input" name="status">
+                @foreach (var s in new[] { "Pending", "Scheduled", "Completed", "Cancelled" }) {
+                    <option value="@s" selected="@(s == Model.Status)">@s</option>
+                }
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>

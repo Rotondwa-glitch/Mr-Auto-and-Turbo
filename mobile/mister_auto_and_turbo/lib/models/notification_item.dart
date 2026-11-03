@@ -1,15 +1,29 @@
-import '../utils/helpers.dart';
-
-/// Single notification entry shown on the Notifications screen.
 class NotificationItem {
+  final String id;
   final String title;
   final String body;
-  final DateTime? at;
-  final bool highlighted;
+  final DateTime createdAt;
+  final bool isRead;
+  final String? type;
+  final String? relatedId;
 
-  const NotificationItem(this.title, this.body, {this.at, this.highlighted = false});
+  const NotificationItem({
+    required this.id,
+    required this.title,
+    required this.body,
+    required this.createdAt,
+    this.isRead = false,
+    this.type,
+    this.relatedId,
+  });
 
-  bool get isQuotation => '$title $body'.toLowerCase().contains('quot');
-
-  String? get when => at == null ? null : formatDate(at!);
+  factory NotificationItem.fromMap(Map<String, dynamic> m) => NotificationItem(
+        id: m['id'] as String? ?? '',
+        title: m['title'] as String? ?? m['type'] as String? ?? 'Notice',
+        body: m['message'] as String? ?? m['body'] as String? ?? '',
+        createdAt: DateTime.tryParse(m['created_at']?.toString() ?? '') ?? DateTime.now(),
+        isRead: m['is_read'] as bool? ?? false,
+        type: m['type'] as String?,
+        relatedId: m['related_id'] as String?,
+      );
 }

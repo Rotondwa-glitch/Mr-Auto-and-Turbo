@@ -20,7 +20,6 @@ extension JobStageLabel on JobStage {
       };
 }
 
-/// Maps to JOB_CARD (same Supabase table the ASP.NET staff app writes to).
 class RepairJob {
   final String id;
   final Vehicle vehicle;
@@ -42,6 +41,10 @@ class RepairJob {
 
   bool get isComplete =>
       collected || stage == JobStage.collected || stage == JobStage.readyForCollection;
+
+  double get progress => (collected || stage == JobStage.collected)
+      ? 1.0
+      : (stage.index + 1) / JobStage.values.length;
 
   bool get hasDiagnosis => diagnosis.trim().isNotEmpty;
   bool get hasRepairNotes => repairNotes.trim().isNotEmpty;

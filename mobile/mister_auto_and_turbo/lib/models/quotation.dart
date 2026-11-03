@@ -1,31 +1,26 @@
 class Quotation {
   final String id;
-  final String customerId;
   final String vehicleId;
-  final String status;
   final double totalAmount;
-  final DateTime createdAt;
+  final String status;
   final String notes;
+  final DateTime createdAt;
 
-  Quotation({
+  const Quotation({
     required this.id,
-    required this.customerId,
     required this.vehicleId,
-    required this.status,
     required this.totalAmount,
+    required this.status,
+    this.notes = '',
     required this.createdAt,
-    required this.notes,
   });
 
-  factory Quotation.fromJson(Map<String, dynamic> json) {
-    return Quotation(
-      id: json['id'] as String,
-      customerId: json['customer_id'] as String? ?? '',
-      vehicleId: json['vehicle_id'] as String? ?? '',
-      status: json['status'] as String? ?? 'Draft',
-      totalAmount: (json['total_amount'] as num?)?.toDouble() ?? 0,
-      createdAt: DateTime.tryParse(json['created_at'] as String? ?? '') ?? DateTime.now(),
-      notes: json['notes'] as String? ?? '',
-    );
-  }
+  factory Quotation.fromMap(Map<String, dynamic> m) => Quotation(
+        id: m['id'] as String? ?? '',
+        vehicleId: m['vehicle_id'] as String? ?? '',
+        totalAmount: (m['total_amount'] as num?)?.toDouble() ?? 0,
+        status: m['status'] as String? ?? 'Pending',
+        notes: m['notes'] as String? ?? '',
+        createdAt: DateTime.tryParse(m['created_at']?.toString() ?? '') ?? DateTime.now(),
+      );
 }

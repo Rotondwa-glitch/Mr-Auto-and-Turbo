@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="page-header">
+    <div>
+        <h1>Dashboard</h1>
+        <p>Overview of workshop activity.</p>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-label">Open jobs</span>
+        <strong class="stat-value">@(ViewBag.OpenJobs ?? 0)</strong>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">In progress</span>
+        <strong class="stat-value">@(ViewBag.InProgressJobs ?? 0)</strong>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Pending appointments</span>
+        <strong class="stat-value">@(ViewBag.PendingAppointments ?? 0)</strong>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Open complaints</span>
+        <strong class="stat-value">@(ViewBag.OpenComplaints ?? 0)</strong>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Ready for collection</span>
+        <strong class="stat-value">@(ViewBag.ReadyForCollection ?? 0)</strong>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Pending quotations</span>
+        <strong class="stat-value">@(ViewBag.PendingQuotations ?? 0)</strong>
+    </div>
+</div>

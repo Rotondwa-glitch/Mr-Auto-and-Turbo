@@ -1,0 +1,93 @@
+@{
+    var role = User.IsInRole("Manager") ? "Manager"
+             : User.IsInRole("Receptionist") ? "Receptionist"
+             : User.IsInRole("Mechanic") ? "Mechanic" : "";
+    var current = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Mister Auto & Turbo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <strong>Mister Auto &amp; Turbo</strong>
+                <span>Staff portal</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a class="nav-item @(current == "Home" || (current == "Dashboard" && currentAction == "Index") ? "active" : "")"
+                   asp-controller="Dashboard" asp-action="Index">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+                @if (role == "Manager" || role == "Receptionist")
+                {
+                    <a class="nav-item @(current == "Customers" ? "active" : "")" asp-controller="Customers" asp-action="Index">
+                        <i class="bi bi-person"></i> Customers
+                    </a>
+                    <a class="nav-item @(current == "Appointments" ? "active" : "")" asp-controller="Appointments" asp-action="Index">
+                        <i class="bi bi-calendar3"></i> Appointments
+                    </a>
+                    <a class="nav-item @(current == "JobCards" ? "active" : "")" asp-controller="JobCards" asp-action="Index">
+                        <i class="bi bi-wrench"></i> Job cards
+                    </a>
+                    <a class="nav-item @(current == "Quotations" ? "active" : "")" asp-controller="Quotations" asp-action="Index">
+                        <i class="bi bi-file-earmark-text"></i> Quotations
+                    </a>
+                    <a class="nav-item @(current == "Payments" ? "active" : "")" asp-controller="Payments" asp-action="Index">
+                        <i class="bi bi-credit-card"></i> Payments
+                    </a>
+                    <a class="nav-item @(current == "VehicleCollections" ? "active" : "")" asp-controller="VehicleCollections" asp-action="Index">
+                        <i class="bi bi-key"></i> Collection
+                    </a>
+                    <a class="nav-item @(current == "Complaints" ? "active" : "")" asp-controller="Complaints" asp-action="Index">
+                        <i class="bi bi-chat-left-text"></i> Complaints
+                    </a>
+                }
+                @if (role == "Manager" || role == "Mechanic")
+                {
+                    <a class="nav-item @(current == "Parts" ? "active" : "")" asp-controller="Parts" asp-action="Index">
+                        <i class="bi bi-box-seam"></i> Parts
+                    </a>
+                }
+                @if (role == "Manager")
+                {
+                    <a class="nav-item @(current == "Users" ? "active" : "")" asp-controller="Users" asp-action="Index">
+                        <i class="bi bi-shield-check"></i> Users
+                    </a>
+                    <a class="nav-item @(current == "Settings" ? "active" : "")" asp-controller="Settings" asp-action="Index">
+                        <i class="bi bi-gear"></i> Settings
+                    </a>
+                }
+            </nav>
+            <div class="sidebar-footer">
+                <form asp-controller="Account" asp-action="Logout" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-ghost btn-block">Sign out</button>
+                </form>
+            </div>
+        </aside>
+        <main class="main-content">
+            <header class="topbar">
+                <h1>@ViewData["Title"]</h1>
+                <div class="topbar-user">@User.Identity?.Name · @role</div>
+            </header>
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

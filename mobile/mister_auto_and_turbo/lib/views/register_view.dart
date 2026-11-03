@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../routes/route_manager.dart';
+import '../theme.dart';
+import '../utils/helpers.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -10,31 +12,23 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   final _formKey = GlobalKey<FormState>();
-  final _nameCtrl = TextEditingController();
-  final _emailCtrl = TextEditingController();
-  final _phoneCtrl = TextEditingController();
-  final _passwordCtrl = TextEditingController();
-  bool _loading = false;
+  final _name = TextEditingController();
+  final _email = TextEditingController();
+  final _phone = TextEditingController();
+  final _password = TextEditingController();
 
   @override
   void dispose() {
-    _nameCtrl.dispose();
-    _emailCtrl.dispose();
-    _phoneCtrl.dispose();
-    _passwordCtrl.dispose();
+    _name.dispose();
+    _email.dispose();
+    _phone.dispose();
+    _password.dispose();
     super.dispose();
   }
 
-  Future<void> _submit() async {
+  void _submit() {
     if (!_formKey.currentState!.validate()) return;
-    setState(() => _loading = true);
-    // Registration logic wired to Supabase in full implementation
-    await Future.delayed(const Duration(milliseconds: 500));
-    if (!mounted) return;
-    setState(() => _loading = false);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Account created. Please sign in.')),
-    );
+    snack(context, 'Registration will connect to Supabase when configured.');
     Navigator.of(context).pushReplacementNamed(RouteManager.login);
   }
 
@@ -42,45 +36,47 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Create account')),
-      body: SafeArea(
+      body: Container(
+        color: kSurface,
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 TextFormField(
-                  controller: _nameCtrl,
+                  controller: _name,
                   decoration: const InputDecoration(labelText: 'Full name'),
-                  validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
+                  validator: requiredField,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 TextFormField(
-                  controller: _emailCtrl,
+                  controller: _email,
                   decoration: const InputDecoration(labelText: 'Email'),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
+                  validator: emailField,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 TextFormField(
-                  controller: _phoneCtrl,
+                  controller: _phone,
                   decoration: const InputDecoration(labelText: 'Phone'),
                   keyboardType: TextInputType.phone,
+                  validator: phoneField,
+                  inputFormatters: [digitsOnlyFormatter],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 TextFormField(
-                  controller: _passwordCtrl,
+                  controller: _password,
                   decoration: const InputDecoration(labelText: 'Password'),
                   obscureText: true,
-                  validator: (v) => (v == null || v.length < 6) ? 'Min 6 characters' : null,
+                  validator: requiredField,
                 ),
                 const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: _loading ? null : _submit,
-                  child: _loading
-                      ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2))
-                      : const Text('Register'),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _submit,
+                    child: const Text('Register'),
+                  ),
                 ),
               ],
             ),

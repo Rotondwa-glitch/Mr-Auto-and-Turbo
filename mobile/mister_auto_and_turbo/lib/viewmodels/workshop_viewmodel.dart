@@ -1,34 +1,42 @@
 import 'package:flutter/foundation.dart';
+import '../models/vehicle.dart';
+import '../models/repair_job.dart';
+import '../models/quotation.dart';
+import '../models/notification_item.dart';
 import 'auth_viewmodel.dart';
 
+/// Holds customer workshop state (vehicles, jobs, quotes, notifications).
+/// Uses demo data when Supabase is offline.
 class WorkshopViewModel extends ChangeNotifier {
-  final AuthViewModel auth;
-
   WorkshopViewModel(this.auth);
 
-  bool _loading = false;
-  String? _error;
+  final AuthViewModel auth;
 
-  bool get isLoading => _loading;
-  String? get error => _error;
+  final List<Vehicle> vehicles = [
+    const Vehicle(
+      id: 'v1',
+      make: 'Toyota',
+      model: 'Corolla',
+      plate: 'ABC 123 GP',
+      year: 2019,
+      mileage: 85000,
+    ),
+  ];
 
-  // Placeholder lists – replace with real Supabase fetches
-  List<Map<String, dynamic>> bookings = [];
-  List<Map<String, dynamic>> quotations = [];
-  List<Map<String, dynamic>> history = [];
+  final List<RepairJob> jobs = [];
+  final List<Quotation> quotations = [];
+  final List<NotificationItem> notifications = [];
 
-  Future<void> loadDashboardData() async {
-    _loading = true;
-    _error = null;
+  void seedDemoJob() {
+    if (jobs.isNotEmpty || vehicles.isEmpty) return;
+    jobs.add(
+      RepairJob(
+        id: 'job-demo',
+        vehicle: vehicles.first,
+        title: 'Service & inspection',
+        stage: JobStage.inspection,
+      ),
+    );
     notifyListeners();
-    try {
-      // TODO: fetch from Supabase using customer id from auth
-      await Future.delayed(const Duration(milliseconds: 300));
-    } catch (e) {
-      _error = e.toString();
-    } finally {
-      _loading = false;
-      notifyListeners();
-    }
   }
 }
